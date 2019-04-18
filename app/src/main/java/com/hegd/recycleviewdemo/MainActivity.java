@@ -1,7 +1,9 @@
 package com.hegd.recycleviewdemo;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -34,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "which item is clicked  -> " + data, Toast.LENGTH_SHORT).show();
             }
         });
+        //添加分割线
+        DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(this,R.drawable.custom_divider));
+        mRecyclerView.addItemDecoration(divider);
         mRecyclerView.setAdapter(mAdapter);
 
     }
