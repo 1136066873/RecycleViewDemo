@@ -1,5 +1,7 @@
 package com.hegd.recycleviewdemo;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,8 +34,22 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter.setOnItemClickListener(new ItemAdapter.onRecyclerViewItemClickListener() {
             @Override
-            public void onItemClick(View view, String data) {
+            public void onItemClick(final View view, String data) {
                 Toast.makeText(MainActivity.this, "which item is clicked  -> " + data, Toast.LENGTH_SHORT).show();
+                //设置点击时的动画
+                view.animate()
+                        .translationZ(100f)
+                        .setDuration(300)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                view.animate()
+                                        .translationZ(1f)
+                                        .setDuration(500)
+                                        .start();
+                            }
+                        }).start();
             }
         });
         //添加分割线
