@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#ABABAB"
     android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/iv_url"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10sp"/>
+
     <TextView
         android:id="@+id/id_num"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="60sp"
         android:gravity="center"
-        android:fillViewport="true"/>
-</FrameLayout>
+        android:fillViewport="true"
+        android:text="xxxxxxxxxxxxxxxxxxxx"
+        android:layout_toRightOf="@+id/iv_url"
+        android:layout_marginLeft="20sp"/>
+</RelativeLayout>

@@ -6,17 +6,24 @@
     android:layout_height="match_parent"
     tools:context="com.hegd.recycleviewdemo.MainActivity">
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/id_recyclerview"
+    <Button
+        android:id="@+id/btn_simple"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:divider="#ffff0000"
-        android:dividerHeight="10dp" >
+        android:layout_height="wrap_content"
+        android:text="simple" />
 
-    </android.support.v7.widget.RecyclerView>
+    <Button
+        android:id="@+id/btn_complex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="complex"/>
+
+</LinearLayout>
 
 </RelativeLayout>

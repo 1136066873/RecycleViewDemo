@@ -9,6 +9,35 @@ import com.hegd.recycleviewdemo.factory.TypeFactory;
 
 public class Type2Bean implements Visitable {
 
+
+    public String itemImageUrl;
+
+    public String itemTitle;
+
+    public String getItemImageUrl() {
+        return itemImageUrl;
+    }
+
+    public void setItemImageUrl(String itemImageUrl) {
+        this.itemImageUrl = itemImageUrl;
+    }
+
+    public String getItemTitle() {
+        return itemTitle;
+    }
+
+    public void setItemTitle(String itemTitle) {
+        this.itemTitle = itemTitle;
+    }
+
+    @Override
+    public String toString() {
+        return "Type1Bean{" +
+                "itemImageUrl='" + itemImageUrl + '\'' +
+                ", itemTitle='" + itemTitle + '\'' +
+                '}';
+    }
+
     @Override
     public int type(TypeFactory typeFactory) {
         return typeFactory.type(this);
