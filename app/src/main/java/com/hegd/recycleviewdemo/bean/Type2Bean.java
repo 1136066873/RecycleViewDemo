@@ -14,6 +14,11 @@ public class Type2Bean implements Visitable {
 
     public String itemTitle;
 
+    public Type2Bean(String itemImageUrl, String itemTitle) {
+        this.itemImageUrl = itemImageUrl;
+        this.itemTitle = itemTitle;
+    }
+
     public String getItemImageUrl() {
         return itemImageUrl;
     }

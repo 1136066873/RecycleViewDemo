@@ -1,6 +1,8 @@
 package com.hegd.recycleviewdemo.factory;
 
 import android.view.View;
+import android.view.ViewGroup;
+
 import com.hegd.recycleviewdemo.bean.Type1Bean;
 import com.hegd.recycleviewdemo.bean.Type2Bean;
 import com.hegd.recycleviewdemo.viewholder.BaseViewHolder;
@@ -16,5 +18,5 @@ public interface TypeFactory {
 
     int type(Type2Bean bean);
 
-    BaseViewHolder onCreateViewHolder(int type, View itemView);
+    BaseViewHolder onCreateViewHolder(int type, ViewGroup parent);
 }

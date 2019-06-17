@@ -3,9 +3,10 @@ package com.hegd.recycleviewdemo.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.hegd.recycleviewdemo.decorate.Visitable;
 import com.hegd.recycleviewdemo.factory.HolderTypeFactory;
 import com.hegd.recycleviewdemo.viewholder.BaseViewHolder;
 import java.util.List;
@@ -38,9 +39,9 @@ public class MulitAdpter extends RecyclerView.Adapter<BaseViewHolder> implements
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent,false);
-        view.setOnClickListener(this);
-        return mHolderTypeFactory.onCreateViewHolder(viewType, view);
+        //View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent,false);
+        //view.setOnClickListener(this);
+        return mHolderTypeFactory.onCreateViewHolder(viewType, parent);
     }
 
     @Override
@@ -65,5 +66,10 @@ public class MulitAdpter extends RecyclerView.Adapter<BaseViewHolder> implements
     //添加 item 的点击事件回调
     public static interface onRecyclerViewItemClickListener {
         void onItemClick(View view,String data);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return ((Visitable)mItems.get(position)).type(mHolderTypeFactory);
     }
 }

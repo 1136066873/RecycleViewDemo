@@ -15,6 +15,7 @@
         android:text="xxxxxxxxxxxxxxxxxxxx" />
 
     <ImageView
+        android:src="@drawable/laohu"
         android:id="@+id/iv_url"
         android:layout_width="50sp"
         android:layout_height="50sp"
