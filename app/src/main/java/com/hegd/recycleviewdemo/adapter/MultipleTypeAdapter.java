@@ -71,4 +71,10 @@ public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> im
     public int getItemViewType(int position) {
         return ((Visitable)mItems.get(position)).type(mHolderTypeFactory);
     }
+
+    /**
+     * 注意：
+     * 当自定义的 XxxAdapter 与自己写的 XxxViewHolder 都设置了点击事件，当点击recycleView 中的某一个
+     * item 的时候，是 XxxViewHolder 中的点击事件被触发。
+     */
 }

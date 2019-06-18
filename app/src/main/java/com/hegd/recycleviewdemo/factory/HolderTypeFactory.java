@@ -39,13 +39,11 @@ public class HolderTypeFactory implements TypeFactory {
     public BaseViewHolder onCreateViewHolder(int type, ViewGroup parent) {
         switch (type) {
             case TYPE1:
-                View view1 = LayoutInflater.from(parent.getContext()).inflate(TYPE1HOLDER_ITEM_LAYOUT, parent,false);
-                //view1.setOnClickListener(this);
-                return new Type1ViewHolder(view1);
+                View type1View = LayoutInflater.from(parent.getContext()).inflate(TYPE1HOLDER_ITEM_LAYOUT, parent,false);
+                return new Type1ViewHolder(type1View);
             case TYPE2:
-                View view2 = LayoutInflater.from(parent.getContext()).inflate(TYPE2HOLDER_ITEM_LAYOUT, parent,false);
-                //view2.setOnClickListener(this);
-                return new Type2ViewHolder(view2);
+                View type2View = LayoutInflater.from(parent.getContext()).inflate(TYPE2HOLDER_ITEM_LAYOUT, parent,false);
+                return new Type2ViewHolder(type2View);
             default:
                 return null;
         }
