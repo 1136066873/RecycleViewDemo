@@ -11,13 +11,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
-
-import com.hegd.recycleviewdemo.ItemAdapter;
 import com.hegd.recycleviewdemo.R;
-import com.hegd.recycleviewdemo.adapter.MulitAdpter;
+import com.hegd.recycleviewdemo.adapter.MultipleTypeAdapter;
 import com.hegd.recycleviewdemo.bean.Type1Bean;
 import com.hegd.recycleviewdemo.bean.Type2Bean;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +26,7 @@ public class ComplexActivity extends AppCompatActivity {
 
     private RecyclerView mComplexRecyclerView;
     private List<Object> mDatas;
-    private MulitAdpter mComplexRecyclerViewAdapter;
+    private MultipleTypeAdapter mComplexRecyclerViewAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,11 +36,9 @@ public class ComplexActivity extends AppCompatActivity {
         mComplexRecyclerView = findViewById(R.id.recyclerview_complex);
         initData();
 
-        //=======================
-
-        mComplexRecyclerViewAdapter = new MulitAdpter(ComplexActivity.this,mDatas);
+        mComplexRecyclerViewAdapter = new MultipleTypeAdapter(ComplexActivity.this,mDatas);
         mComplexRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mComplexRecyclerViewAdapter.setOnItemClickListener(new MulitAdpter.onRecyclerViewItemClickListener() {
+        mComplexRecyclerViewAdapter.setOnItemClickListener(new MultipleTypeAdapter.onRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(final View view, String data) {
                 Toast.makeText(ComplexActivity.this, "which item is clicked  -> " + data, Toast.LENGTH_SHORT).show();
@@ -68,20 +63,17 @@ public class ComplexActivity extends AppCompatActivity {
         divider.setDrawable(ContextCompat.getDrawable(this,R.drawable.custom_divider));
         mComplexRecyclerView.addItemDecoration(divider);
         mComplexRecyclerView.setAdapter(mComplexRecyclerViewAdapter);
-        //=======================
-
 
     }
 
     private void initData() {
         mDatas = new ArrayList<>();
-        for(int i = 0 ; i < 15 ; i++ ){
+        for(int i = 0 ; i < 50 ; i++ ){
             if (i % 2 == 0){
-                mDatas.add(new Type1Bean("http://www.cctv.com/special/536/-1/25184/chengnian.jpg","老虎老虎，我是熊猫"));
+                mDatas.add(new Type1Bean("http://www.cctv.com/special/536/-1/25184/chengnian.jpg","老虎老虎，我是熊猫 " + i));
             }else {
-                mDatas.add(new Type2Bean("https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike116%2C5%2C5%2C116%2C38/sign=f1fc397a5edf8db1a8237436684ab631/241f95cad1c8a786648b72ec6709c93d71cf50aa.jpg","熊猫熊猫，我是老虎"));
+                mDatas.add(new Type2Bean("https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike116%2C5%2C5%2C116%2C38/sign=f1fc397a5edf8db1a8237436684ab631/241f95cad1c8a786648b72ec6709c93d71cf50aa.jpg","熊猫熊猫，我是老虎 " + i ));
             }
-            //mDatas.add( "item  " + i );
         }
     }
 }

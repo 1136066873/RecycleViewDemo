@@ -9,7 +9,6 @@ import com.hegd.recycleviewdemo.factory.TypeFactory;
 
 public class Type2Bean implements Visitable {
 
-
     public String itemImageUrl;
 
     public String itemTitle;

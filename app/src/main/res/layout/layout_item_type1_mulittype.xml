@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/iv_url"
-        android:src="@drawable/xiongmaoer"
+        android:src="@drawable/default_iv"
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:layout_centerVertical="true"

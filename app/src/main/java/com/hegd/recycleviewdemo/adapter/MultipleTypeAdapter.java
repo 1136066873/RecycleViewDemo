@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.hegd.recycleviewdemo.decorate.Visitable;
 import com.hegd.recycleviewdemo.factory.HolderTypeFactory;
 import com.hegd.recycleviewdemo.viewholder.BaseViewHolder;
@@ -15,14 +14,14 @@ import java.util.List;
  * Created by 何国栋 on 2019/6/17.
  */
 
-public class MulitAdpter extends RecyclerView.Adapter<BaseViewHolder> implements View.OnClickListener {
+public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> implements View.OnClickListener {
 
     public List mItems;
     public Context mContext;
     public HolderTypeFactory mHolderTypeFactory;
     public onRecyclerViewItemClickListener mItemClickListener = null;
 
-    public MulitAdpter(Context context, List items){
+    public MultipleTypeAdapter(Context context, List items){
         mHolderTypeFactory = new HolderTypeFactory();
         mContext = context;
         mItems = items;
@@ -32,14 +31,14 @@ public class MulitAdpter extends RecyclerView.Adapter<BaseViewHolder> implements
      * 暴露给别人可以设置监听
      * @param listener
      */
-    public void setOnItemClickListener(MulitAdpter.onRecyclerViewItemClickListener listener) {
+    public void setOnItemClickListener(MultipleTypeAdapter.onRecyclerViewItemClickListener listener) {
         this.mItemClickListener = listener;
     }
 
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent,false);
+        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent,false);
         //view.setOnClickListener(this);
         return mHolderTypeFactory.onCreateViewHolder(viewType, parent);
     }
