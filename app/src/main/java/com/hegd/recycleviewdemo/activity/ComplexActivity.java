@@ -15,8 +15,12 @@ import com.hegd.recycleviewdemo.R;
 import com.hegd.recycleviewdemo.adapter.MultipleTypeAdapter;
 import com.hegd.recycleviewdemo.bean.Type1Bean;
 import com.hegd.recycleviewdemo.bean.Type2Bean;
+import com.hegd.recycleviewdemo.listener.EndlessRecyclerOnScrollListener;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by 何国栋 on 2019/6/17.
@@ -63,16 +67,47 @@ public class ComplexActivity extends AppCompatActivity {
         divider.setDrawable(ContextCompat.getDrawable(this,R.drawable.custom_divider));
         mComplexRecyclerView.addItemDecoration(divider);
         mComplexRecyclerView.setAdapter(mComplexRecyclerViewAdapter);
+        mComplexRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadMore() {
+                mComplexRecyclerViewAdapter.setLoadState(mComplexRecyclerViewAdapter.LOADING);
 
+                if (mDatas.size() < 50) {//这个地方的数值大小应该是后台服务器返回来的数据的实际大小
+                    // 模拟获取网络数据，延时1s
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadMoreData();
+                                    mComplexRecyclerViewAdapter.setLoadState(mComplexRecyclerViewAdapter.LOADING_COMPLETE);
+                                }
+                            });
+                        }
+                    }, 1000);
+                } else {
+                    // 显示加载到底的提示
+                    mComplexRecyclerViewAdapter.setLoadState(mComplexRecyclerViewAdapter.LOADING_END);
+                }
+            }
+        });
+
+    }
+
+    private void loadMoreData() {
+        for(int i = 0 ; i < 10 ; i++ ){
+            mDatas.add(new Type1Bean("http://m.360buyimg.com/pop/jfs/t24616/349/8854905/77406/fe947d37/5b62b258N53dddc60.jpg","熊猫老虎，我是狮子 🦁 " + (mDatas.size() + 1)));
+        }
     }
 
     private void initData() {
         mDatas = new ArrayList<>();
-        for(int i = 0 ; i < 50 ; i++ ){
+        for(int i = 0 ; i < 10 ; i++ ){
             if (i % 2 == 0){
-                mDatas.add(new Type1Bean("http://www.cctv.com/special/536/-1/25184/chengnian.jpg","老虎老虎，我是熊猫 " + i));
+                mDatas.add(new Type1Bean("http://www.cctv.com/special/536/-1/25184/chengnian.jpg","老虎老虎，我是熊猫 🐼" + (i + 1)));
             }else {
-                mDatas.add(new Type2Bean("https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike116%2C5%2C5%2C116%2C38/sign=f1fc397a5edf8db1a8237436684ab631/241f95cad1c8a786648b72ec6709c93d71cf50aa.jpg","熊猫熊猫，我是老虎 " + i ));
+                mDatas.add(new Type2Bean("https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike116%2C5%2C5%2C116%2C38/sign=f1fc397a5edf8db1a8237436684ab631/241f95cad1c8a786648b72ec6709c93d71cf50aa.jpg","熊猫熊猫，我是老虎 🐯" + (i + 1)));
             }
         }
     }

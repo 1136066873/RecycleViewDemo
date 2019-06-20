@@ -8,7 +8,11 @@ import android.view.ViewGroup;
 import com.hegd.recycleviewdemo.decorate.Visitable;
 import com.hegd.recycleviewdemo.factory.HolderTypeFactory;
 import com.hegd.recycleviewdemo.viewholder.BaseViewHolder;
+import com.hegd.recycleviewdemo.viewholder.FooterLoadMoreViewHolder;
+
 import java.util.List;
+
+import static com.hegd.recycleviewdemo.factory.HolderTypeFactory.TYPE_FOOTER;
 
 /**
  * Created by 何国栋 on 2019/6/17.
@@ -20,6 +24,13 @@ public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> im
     public Context mContext;
     public HolderTypeFactory mHolderTypeFactory;
     public onRecyclerViewItemClickListener mItemClickListener = null;
+    private int mLoadState;
+    // 正在加载
+    public final int LOADING = 1;
+    // 加载完成
+    public final int LOADING_COMPLETE = 2;
+    // 加载到底
+    public final int LOADING_END = 3;
 
     public MultipleTypeAdapter(Context context, List items){
         mHolderTypeFactory = new HolderTypeFactory();
@@ -38,14 +49,38 @@ public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> im
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent,false);
-        //view.setOnClickListener(this);
         return mHolderTypeFactory.onCreateViewHolder(viewType, parent);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-        holder.bindViewData(mItems.get(position));
+        if ( !(holder instanceof FooterLoadMoreViewHolder)){
+            holder.bindViewData(mItems.get(position));
+        } else {
+            FooterLoadMoreViewHolder footViewHolder = (FooterLoadMoreViewHolder) holder;
+            switch (mLoadState) {
+                case LOADING: // 正在加载
+                    footViewHolder.pbLoading.setVisibility(View.VISIBLE);
+                    footViewHolder.tvLoading.setVisibility(View.VISIBLE);
+                    footViewHolder.llEnd.setVisibility(View.GONE);
+                    break;
+
+                case LOADING_COMPLETE: // 加载完成
+                    footViewHolder.pbLoading.setVisibility(View.INVISIBLE);
+                    footViewHolder.tvLoading.setVisibility(View.INVISIBLE);
+                    footViewHolder.llEnd.setVisibility(View.GONE);
+                    break;
+
+                case LOADING_END: // 加载到底
+                    footViewHolder.pbLoading.setVisibility(View.GONE);
+                    footViewHolder.tvLoading.setVisibility(View.GONE);
+                    footViewHolder.llEnd.setVisibility(View.VISIBLE);
+                    break;
+
+                default:
+                    break;
+            }
+        }
         //把当前的位置以 TAG 的形式发送出去，方便在点击事件的时候使用这个位置
         holder.itemView.setTag(mItems.get(position));//将数据保存在itemView的Tag中，以便点击时进行获取
     }
@@ -69,7 +104,21 @@ public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> im
 
     @Override
     public int getItemViewType(int position) {
-        return ((Visitable)mItems.get(position)).type(mHolderTypeFactory);
+        if (position + 1 == getItemCount()) {
+            return TYPE_FOOTER;
+        } else {
+            return ((Visitable)mItems.get(position)).type(mHolderTypeFactory);
+        }
+    }
+
+    /**
+     * 设置上拉加载状态
+     *
+     * @param loadState 0.正在加载 1.加载完成 2.加载到底
+     */
+    public void setLoadState(int loadState) {
+        this.mLoadState = loadState;
+        notifyDataSetChanged();
     }
 
     /**
