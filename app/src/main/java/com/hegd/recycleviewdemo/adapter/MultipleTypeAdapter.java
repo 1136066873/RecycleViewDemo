@@ -2,6 +2,7 @@ package com.hegd.recycleviewdemo.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,6 +120,23 @@ public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> im
     public void setLoadState(int loadState) {
         this.mLoadState = loadState;
         notifyDataSetChanged();
+    }
+
+    //处理 recycleView 在使用 GridLayoutManager 布局时，footer 的显示的问题
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+        if (manager instanceof GridLayoutManager) {
+            final GridLayoutManager gridManager = ((GridLayoutManager) manager);
+            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    // 如果当前是footer的位置，那么该item占据 x 个单元格，正常情况下占据1个单元格
+                    return getItemViewType(position) == TYPE_FOOTER ? gridManager.getSpanCount() : 1;
+                }
+            });
+        }
     }
 
     /**
