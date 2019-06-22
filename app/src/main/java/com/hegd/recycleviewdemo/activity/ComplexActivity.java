@@ -2,9 +2,11 @@ package com.hegd.recycleviewdemo.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,13 +33,13 @@ public class ComplexActivity extends AppCompatActivity {
     private RecyclerView mComplexRecyclerView;
     private List<Object> mDatas;
     private MultipleTypeAdapter mComplexRecyclerViewAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complex);
-
-        mComplexRecyclerView = findViewById(R.id.recyclerview_complex);
+        initViews();
         initData();
 
         mComplexRecyclerViewAdapter = new MultipleTypeAdapter(ComplexActivity.this,mDatas);
@@ -95,6 +97,33 @@ public class ComplexActivity extends AppCompatActivity {
 
     }
 
+    private void initViews() {
+        mComplexRecyclerView = findViewById(R.id.recyclerview_complex);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        // 设置刷新控件颜色
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#4DB6AC"));
+        // 设置下拉刷新
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // 刷新数据
+                mDatas.clear();
+                initData();
+                mComplexRecyclerViewAdapter.notifyDataSetChanged();
+
+                // 延时1s关闭下拉刷新
+                swipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                }, 1000);
+            }
+        });
+    }
+
     private void loadMoreData() {
         for(int i = 0 ; i < 10 ; i++ ){
             mDatas.add(new Type1Bean("http://m.360buyimg.com/pop/jfs/t24616/349/8854905/77406/fe947d37/5b62b258N53dddc60.jpg","熊猫老虎，我是狮子 🦁 " + (mDatas.size() + 1)));
@@ -102,6 +131,7 @@ public class ComplexActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        if (mDatas == null)
         mDatas = new ArrayList<>();
         for(int i = 0 ; i < 10 ; i++ ){
             if (i % 2 == 0){

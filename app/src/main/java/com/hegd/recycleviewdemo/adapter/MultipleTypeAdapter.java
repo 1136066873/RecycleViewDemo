@@ -83,12 +83,12 @@ public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> im
             }
         }
         //把当前的位置以 TAG 的形式发送出去，方便在点击事件的时候使用这个位置
-        holder.itemView.setTag(mItems.get(position));//将数据保存在itemView的Tag中，以便点击时进行获取
+        //holder.itemView.setTag(mItems.get(position));//将数据保存在itemView的Tag中，以便点击时进行获取
     }
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return mItems.size() + 1;
     }
 
     @Override
@@ -105,7 +105,7 @@ public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> im
 
     @Override
     public int getItemViewType(int position) {
-        if (position + 1 == getItemCount()) {
+        if ( position == mItems.size()) {
             return TYPE_FOOTER;
         } else {
             return ((Visitable)mItems.get(position)).type(mHolderTypeFactory);
