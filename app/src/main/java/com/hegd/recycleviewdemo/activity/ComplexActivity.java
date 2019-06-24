@@ -1,7 +1,5 @@
 package com.hegd.recycleviewdemo.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Toast;
 import com.hegd.recycleviewdemo.R;
 import com.hegd.recycleviewdemo.adapter.MultipleTypeAdapter;
 import com.hegd.recycleviewdemo.bean.Type1Bean;
@@ -44,26 +40,6 @@ public class ComplexActivity extends AppCompatActivity {
 
         mComplexRecyclerViewAdapter = new MultipleTypeAdapter(ComplexActivity.this,mDatas);
         mComplexRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mComplexRecyclerViewAdapter.setOnItemClickListener(new MultipleTypeAdapter.onRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(final View view, String data) {
-                Toast.makeText(ComplexActivity.this, "which item is clicked  -> " + data, Toast.LENGTH_SHORT).show();
-                //设置点击时的动画
-                view.animate()
-                        .translationZ(100f)
-                        .setDuration(300)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                view.animate()
-                                        .translationZ(1f)
-                                        .setDuration(500)
-                                        .start();
-                            }
-                        }).start();
-            }
-        });
         //添加分割线
         DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         divider.setDrawable(ContextCompat.getDrawable(this,R.drawable.custom_divider));
@@ -101,7 +77,7 @@ public class ComplexActivity extends AppCompatActivity {
         mComplexRecyclerView = findViewById(R.id.recyclerview_complex);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         // 设置刷新控件颜色
-        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#4DB6AC"));
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#979797"));
         // 设置下拉刷新
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

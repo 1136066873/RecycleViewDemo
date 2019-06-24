@@ -10,9 +10,7 @@ import com.hegd.recycleviewdemo.decorate.Visitable;
 import com.hegd.recycleviewdemo.factory.HolderTypeFactory;
 import com.hegd.recycleviewdemo.viewholder.BaseViewHolder;
 import com.hegd.recycleviewdemo.viewholder.FooterLoadMoreViewHolder;
-
 import java.util.List;
-
 import static com.hegd.recycleviewdemo.factory.HolderTypeFactory.TYPE_FOOTER;
 
 /**
@@ -24,7 +22,6 @@ public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> im
     public List mItems;
     public Context mContext;
     public HolderTypeFactory mHolderTypeFactory;
-    public onRecyclerViewItemClickListener mItemClickListener = null;
     private int mLoadState;
     // 正在加载
     public final int LOADING = 1;
@@ -37,14 +34,6 @@ public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> im
         mHolderTypeFactory = new HolderTypeFactory();
         mContext = context;
         mItems = items;
-    }
-
-    /**
-     * 暴露给别人可以设置监听
-     * @param listener
-     */
-    public void setOnItemClickListener(MultipleTypeAdapter.onRecyclerViewItemClickListener listener) {
-        this.mItemClickListener = listener;
     }
 
     @NonNull
@@ -82,8 +71,6 @@ public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> im
                     break;
             }
         }
-        //把当前的位置以 TAG 的形式发送出去，方便在点击事件的时候使用这个位置
-        //holder.itemView.setTag(mItems.get(position));//将数据保存在itemView的Tag中，以便点击时进行获取
     }
 
     @Override
@@ -93,14 +80,6 @@ public class MultipleTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> im
 
     @Override
     public void onClick(View itemView) {
-        if (mItemClickListener != null){
-            mItemClickListener.onItemClick(itemView,(String)itemView.getTag());
-        }
-    }
-
-    //添加 item 的点击事件回调
-    public static interface onRecyclerViewItemClickListener {
-        void onItemClick(View view,String data);
     }
 
     @Override
